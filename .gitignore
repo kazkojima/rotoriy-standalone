@@ -1,0 +1,8 @@
+build
+tmp
+.dep
+*~
+*.orig
+*.rej
+*.o
+rotoriy
