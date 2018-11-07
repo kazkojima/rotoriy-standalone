@@ -16,6 +16,6 @@ GA computations are compiled to vecotor/bivector arithmetics by hand, augumented
 
 Some trigonometric functions - sinf, conf, atan2f and sincf functions are re-implemented for the limited standalone environments. sinf is computed with the table lookup and a few multiplications.
 
-[^1]:Daniel Fontijne, Leo Dorst: Reconstructing Rotations and Rigid Body Motions from Exact Point Correspondences Through Reflections. Guide to Geometric Algebra in Practice 2011: 63-78
+[^1]: Daniel Fontijne, Leo Dorst: Reconstructing Rotations and Rigid Body Motions from Exact Point Correspondences Through Reflections. Guide to Geometric Algebra in Practice 2011: 63-78
 
-[^2]:Liam Candy, Joan Lasenby: Attitude and Position Tracking. Guide to Geometric Algebra in Practice 2011: 105-125
+[^2]: Liam Candy, Joan Lasenby: Attitude and Position Tracking. Guide to Geometric Algebra in Practice 2011: 105-125
