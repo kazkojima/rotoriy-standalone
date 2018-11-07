@@ -10,9 +10,12 @@ The rotor identification is based on the method proposed at
 
 [Rotation Identification in Geometric Algebra: Theory and Application to the Navigation of Underwater Robots in the Field](https://pdfs.semanticscholar.org/b2a3/a6b7221b215840a7f910179665c8419b0ec0.pdf)
 
-When fuising magnetometer too, Fontijne-Dost algorism of 3D rotor reconstruction is used to get rotor P which maps x-axis to the north and z-axis to the opposite direction of the gravity.
+When fuising magnetometer too, Fontijne-Dost algorism of 3D rotor reconstruction[^1] is used to get rotor P which maps x-axis to the north and z-axis to the opposite direction of the gravity.
 
-GA computations are compiled to vecotor/bivector arithmetics by hand, augumented with Mathematica. There are 2 implementations in RotorIy. The class RotorVS is based versor(rotor) multiplication and RotorBV is based the bivector updating method which is given Candy and Lasenby.
+GA computations are compiled to vecotor/bivector arithmetics by hand, augumented with Mathematica. There are 2 implementations in RotorIy. The class RotorVS is based versor(rotor) multiplication and RotorBV is based the bivector updating method which is given Candy and Lasenby.[^2]
 
 Some trigonometric functions - sinf, conf, atan2f and sincf functions are re-implemented for the limited standalone environments. sinf is computed with the table lookup and a few multiplications.
 
+[^1]:Daniel Fontijne, Leo Dorst: Reconstructing Rotations and Rigid Body Motions from Exact Point Correspondences Through Reflections. Guide to Geometric Algebra in Practice 2011: 63-78
+
+[^2]:Liam Candy, Joan Lasenby: Attitude and Position Tracking. Guide to Geometric Algebra in Practice 2011: 105-125
