@@ -40,8 +40,8 @@
 
 RotorIy::RotorIy ()
 {
-  m_S0 = 1.0;
-  m_Si = m_Sj = m_Sk = 0.0;
+  m_S0 = 1.0f;
+  m_Si = m_Sj = m_Sk = 0.0f;
 }
 
 RotorIy::~RotorIy ()
@@ -117,7 +117,7 @@ Atan2 (float y, float x)
   float a = absmin/absmax;
   float s = a*a;
   // 7th order Taylor approximation
-  float r = ((-0.0464964749*s + 0.15931422)*s - 0.327622764)*s*a + a;
+  float r = ((-0.0464964749f*s + 0.15931422f)*s - 0.327622764f)*s*a + a;
   if (absy > absx)
     r = float_pi/2 - r;
   if (x < 0)
@@ -202,8 +202,8 @@ ReconstructRotor (float x0, float x1, float x2,
       return;
     }
   // If both norm smaller than epsilon, return 1
-  v0 = 1;
-  vi = vj = vk = 0;
+  v0 = 1.0f;
+  vi = vj = vk = 0.0f;
 }
 
 /*
@@ -212,14 +212,14 @@ ReconstructRotor (float x0, float x1, float x2,
 
 RotorIyVS::RotorIyVS ()
 {
-  m_Ii = m_Ij = m_Ik = 0.0;
-  m_gain = 0.0;
+  m_Ii = m_Ij = m_Ik = 0.0f;
+  m_gain = 0.0f;
 }
 
 RotorIyVS::RotorIyVS (float gain, float dt, float epsilon):
   RotorIy(), m_gain(gain), m_dt(dt), m_epsilon(epsilon)
 {
-  m_Ii = m_Ij = m_Ik = 0.0;
+  m_Ii = m_Ij = m_Ik = 0.0f;
 }
 
 RotorIyVS::~RotorIyVS ()
@@ -249,7 +249,7 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
       float nm3 = ax*ax + ay*ay + az*az;
       // Don't fuse if y+v is too short or if |y| is far from |G|.
       if (nm2 > m_norm_threshold
-	  && 0.8*sq_gravity_mss < nm3 && nm3 < 1.2*sq_gravity_mss)
+	  && 0.8f*sq_gravity_mss < nm3 && nm3 < 1.2f*sq_gravity_mss)
 	{
 	  // u = (1.0/nm)*(y+v);
 	  float inm = invSqrt (nm2);
@@ -269,7 +269,7 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
 	  // Skip if nm is too small
 	  if (nm > float_ep)
 	    {
-	      float ac = m_gain*(-2.0)*invSqrt (nm2)*Atan2 (p0, nm);
+	      float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	      omegai += ac*pi;
 	      omegaj += ac*pj;
 	      omegak += ac*pk;
@@ -277,10 +277,10 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
 	}
     }
 
-  float delta = 0.5*m_dt*Sqrt(omegai*omegai + omegaj*omegaj + omegak*omegak);
+  float delta = 0.5f*m_dt*Sqrt(omegai*omegai + omegaj*omegaj + omegak*omegak);
 
   float dc = cosf(delta);
-  float dsc = -0.5*m_dt*Sincf(delta);
+  float dsc = -0.5f*m_dt*Sincf(delta);
   float dsi = dsc*omegai;
   float dsj = dsc*omegaj;
   float dsk = dsc*omegak;
@@ -324,7 +324,7 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
       float nmt = tx*tx + ty*ty + tz*tz;
       //printf("%f %f\n", nmt, sq_gravity_mss * 100 * 100);
       if (nmt > sq_gravity_mss * 100 * 100
-	  && nma > 0.8*sq_gravity_mss)
+	  && nma > 0.8f*sq_gravity_mss)
 	{
 	  float inmt = invSqrt (nmt);
 	  // Holizontal north unit vector.
@@ -352,7 +352,7 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
       // Don't fuse if y+v is too short or if |y| is far from |G|.
       //printf("%f %f %f\n", 0.8*sq_gravity_mss, nma, 1.2*sq_gravity_mss);
       if (nm2 > m_norm_threshold
-	  && 0.8*sq_gravity_mss < nma && nma < 1.2*sq_gravity_mss)
+	  && 0.8f*sq_gravity_mss < nma && nma < 1.2f*sq_gravity_mss)
 	{
 	  // u = (1.0/nm)*(y+v);
 	  float inm = invSqrt (nm2);
@@ -372,7 +372,7 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
 	  float nm = Sqrt (nm2);
 	  if (nm > float_ep)
 	    {
-	      float ac = m_gain*(-2.0)*invSqrt (nm2)*Atan2 (p0, nm);
+	      float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	      omegai += ac*pi;
 	      omegaj += ac*pj;
 	      omegak += ac*pk;
@@ -402,17 +402,17 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
       float nm = Sqrt (nm2);
       if (nm > float_ep)
 	{
-	  float ac = m_gain*(-2.0)*invSqrt (nm2)*Atan2 (p0, nm);
+	  float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	  omegai += ac*pi;
 	  omegaj += ac*pj;
 	  omegak += ac*pk;
 	}
     }
 
-  float delta = 0.5*m_dt*Sqrt(omegai*omegai + omegaj*omegaj + omegak*omegak);
+  float delta = 0.5f*m_dt*Sqrt(omegai*omegai + omegaj*omegaj + omegak*omegak);
 
   float dc = cosf(delta);
-  float dsc = -0.5*m_dt*Sincf(delta);
+  float dsc = -0.5f*m_dt*Sincf(delta);
   float dsi = dsc*omegai;
   float dsj = dsc*omegaj;
   float dsk = dsc*omegak;
@@ -430,7 +430,7 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
 void
 RotorIyVS::SetGain (float gain)
 {
-  if (gain >= 0)
+  if (gain >= 0.0f)
     m_gain = gain;
 }
 
@@ -442,13 +442,13 @@ RotorIyVS::SetGain (float gain)
 static float
 kappa (float x)
 {
-  if (x < 0)
+  if (x < 0.0f)
     x = -x;
-  x = 0.5*x;
+  x = 0.5f*x;
   if (x >= root_root_ep)
     return x*cosf(x)/sinf(x) - 1;
   // Approx. near by 0
-  float k = 0.0;
+  float k = 0.0f;
   if (x >= float_ep)
     {
       float x2 = x*x;
@@ -490,22 +490,22 @@ wrap (float x)
 
 RotorIyBV::RotorIyBV ()
 {
-  m_alpha = 0.0;
-  m_Bi = m_Bj = m_Bk = 0.0;
-  m_omega0i = m_omega0j = m_omega0k = 0.0;
-  m_omega1i = m_omega1j = m_omega1k = 0.0;
-  m_Ii = m_Ij = m_Ik = 0.0;
-  m_gain = 0.0;
+  m_alpha = 0.0f;
+  m_Bi = m_Bj = m_Bk = 0.0f;
+  m_omega0i = m_omega0j = m_omega0k = 0.0f;
+  m_omega1i = m_omega1j = m_omega1k = 0.0f;
+  m_Ii = m_Ij = m_Ik = 0.0f;
+  m_gain = 0.0f;
 }
 
 RotorIyBV::RotorIyBV (float gain, float dt, float epsilon):
   RotorIy(), m_gain(gain), m_dt(dt), m_epsilon(epsilon)
 {
-  m_alpha = 0.0;
-  m_Bi = m_Bj = m_Bk = 0.0;
-  m_omega0i = m_omega0j = m_omega0k = 0.0;
-  m_omega1i = m_omega1j = m_omega1k = 0.0;
-  m_Ii = m_Ij = m_Ik = 0.0;
+  m_alpha = 0.0f;
+  m_Bi = m_Bj = m_Bk = 0.0f;
+  m_omega0i = m_omega0j = m_omega0k = 0.0f;
+  m_omega1i = m_omega1j = m_omega1k = 0.0f;
+  m_Ii = m_Ij = m_Ik = 0.0f;
 }
 
 RotorIyBV::~RotorIyBV ()
@@ -537,7 +537,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
       // Don't fuse if y+v is too short or if |y| is far from |G|.
       //printf("%f %f %f\n", 0.8*sq_gravity_mss, nm3, 1.2*sq_gravity_mss);
       if (nm2 > m_norm_threshold
-	  && 0.8*sq_gravity_mss < nm3 && nm3 < 1.2*sq_gravity_mss)
+	  && 0.8f*sq_gravity_mss < nm3 && nm3 < 1.2f*sq_gravity_mss)
 	{
 	  // u = (1.0/nm)*(y+v);
 	  float inm = invSqrt (nm2);
@@ -556,7 +556,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
 	  float nm = Sqrt (nm2);
 	  if (nm > float_ep)
 	    {
-	      float ac = m_gain*(-2.0)*invSqrt (nm2)*Atan2 (p0, nm);
+	      float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	      omegai += ac*pi;
 	      omegaj += ac*pj;
 	      omegak += ac*pk;
@@ -572,12 +572,12 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
 	ci, cj, ck);
 
   float dbi, dbj, dbk;
-  dbi = ((1.0/12)*m_dt*(-m_omega0i + 8.0*m_omega1i + 5.0*omegai)
-	 + (1.0/24)*m_dt*m_dt*ci);
-  dbj = ((1.0/12)*m_dt*(-m_omega0j + 8.0*m_omega1j + 5.0*omegaj)
-	 + (1.0/24)*m_dt*m_dt*cj);
-  dbk = ((1.0/12)*m_dt*(-m_omega0k + 8.0*m_omega1k + 5.0*omegak)
-	 + (1.0/24)*m_dt*m_dt*ck);
+  dbi = ((1.0f/12)*m_dt*(-m_omega0i + 8.0f*m_omega1i + 5.0f*omegai)
+	 + (1.0f/24)*m_dt*m_dt*ci);
+  dbj = ((1.0f/12)*m_dt*(-m_omega0j + 8.0f*m_omega1j + 5.0f*omegaj)
+	 + (1.0f/24)*m_dt*m_dt*cj);
+  dbk = ((1.0f/12)*m_dt*(-m_omega0k + 8.0f*m_omega1k + 5.0f*omegak)
+	 + (1.0f/24)*m_dt*m_dt*ck);
 
   // grade 2 part of <B, omega> i.e. commutator [B, omega]
   comm (m_Bi, m_Bj, m_Bk, dbi, dbj, dbk, ci, cj, ck);
@@ -599,9 +599,9 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
     }
 
   // Updating with the GA version of Bortz equation.
-  m_Bi = wrap (m_Bi + dbi - 0.5*ci);
-  m_Bj = wrap (m_Bj + dbj - 0.5*cj);
-  m_Bk = wrap (m_Bk + dbk - 0.5*ck);
+  m_Bi = wrap (m_Bi + dbi - 0.5f*ci);
+  m_Bj = wrap (m_Bj + dbj - 0.5f*cj);
+  m_Bk = wrap (m_Bk + dbk - 0.5f*ck);
 
   m_alpha = Sqrt(m_Bi*m_Bi + m_Bj*m_Bj + m_Bk*m_Bk);
 
@@ -613,9 +613,9 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
   m_omega1k = omegak;
 
   // S = exp(-0.5*B)
-  float phi = -0.5*m_alpha;
+  float phi = -0.5f*m_alpha;
   c = cosf(phi);
-  float sc = -0.5*Sincf(phi);
+  float sc = -0.5f*Sincf(phi);
   si = sc*m_Bi;
   sj = sc*m_Bj;
   sk = sc*m_Bk;
@@ -642,7 +642,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
   omegak = gk - m_Ik;
 
   enum { NOFUSE, FUSE_ACC, FUSE_ACC_MAG, } fuse_type;
-  if (m_gain == 0)
+  if (m_gain == 0.0f)
     fuse_type = NOFUSE;
   else
     {
@@ -655,7 +655,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
       float nmt = tx*tx + ty*ty + tz*tz;
       //printf("%f %f\n", nmt, sq_gravity_mss * 100 * 100);
       if (nmt > sq_gravity_mss * 100 * 100
-	  && nma > 0.8*sq_gravity_mss)
+	  && nma > 0.8f*sq_gravity_mss)
 	{
 	  float inmt = invSqrt (nmt);
 	  // Holizontal north unit vector.
@@ -683,7 +683,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
       // Don't fuse if y+v is too short or if |y| is far from |G|.
       //printf("%f %f %f\n", 0.8*sq_gravity_mss, nma, 1.2*sq_gravity_mss);
       if (nm2 > m_norm_threshold
-	  && 0.8*sq_gravity_mss < nma && nma < 1.2*sq_gravity_mss)
+	  && 0.8f*sq_gravity_mss < nma && nma < 1.2f*sq_gravity_mss)
 	{
 	  // u = (1.0/nm)*(y+v);
 	  float inm = invSqrt (nm2);
@@ -703,7 +703,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
 	  float nm = Sqrt (nm2);
 	  if (nm > float_ep)
 	    {
-	      float ac = m_gain*(-2.0)*invSqrt (nm2)*Atan2 (p0, nm);
+	      float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	      omegai += ac*pi;
 	      omegaj += ac*pj;
 	      omegak += ac*pk;
@@ -733,7 +733,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
       float nm = Sqrt (nm2);
       if (nm > float_ep)
 	{
-	  float ac = m_gain*(-2.0)*invSqrt (nm2)*Atan2 (p0, nm);
+	  float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	  omegai += ac*pi;
 	  omegaj += ac*pj;
 	  omegak += ac*pk;
@@ -748,12 +748,12 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
 	ci, cj, ck);
 
   float dbi, dbj, dbk;
-  dbi = ((1.0/12)*m_dt*(-m_omega0i + 8.0*m_omega1i + 5.0*omegai)
-	 + (1.0/24)*m_dt*m_dt*ci);
-  dbj = ((1.0/12)*m_dt*(-m_omega0j + 8.0*m_omega1j + 5.0*omegaj)
-	       + (1.0/24)*m_dt*m_dt*cj);
-  dbk = ((1.0/12)*m_dt*(-m_omega0k + 8.0*m_omega1k + 5.0*omegak)
-	       + (1.0/24)*m_dt*m_dt*ck);
+  dbi = ((1.0f/12)*m_dt*(-m_omega0i + 8.0f*m_omega1i + 5.0f*omegai)
+	 + (1.0f/24)*m_dt*m_dt*ci);
+  dbj = ((1.0f/12)*m_dt*(-m_omega0j + 8.0f*m_omega1j + 5.0f*omegaj)
+	 + (1.0f/24)*m_dt*m_dt*cj);
+  dbk = ((1.0f/12)*m_dt*(-m_omega0k + 8.0f*m_omega1k + 5.0f*omegak)
+	 + (1.0f/24)*m_dt*m_dt*ck);
 
   // grade 2 part of <B, omega> i.e. commutator [B, omega]
   comm (m_Bi, m_Bj, m_Bk, dbi, dbj, dbk, ci, cj, ck);
@@ -775,9 +775,9 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
     }
 
   // Updating with the GA version of Bortz equation.
-  m_Bi = wrap (m_Bi + dbi - 0.5*ci);
-  m_Bj = wrap (m_Bj + dbj - 0.5*cj);
-  m_Bk = wrap (m_Bk + dbk - 0.5*ck);
+  m_Bi = wrap (m_Bi + dbi - 0.5f*ci);
+  m_Bj = wrap (m_Bj + dbj - 0.5f*cj);
+  m_Bk = wrap (m_Bk + dbk - 0.5f*ck);
 
   m_alpha = Sqrt(m_Bi*m_Bi + m_Bj*m_Bj + m_Bk*m_Bk);
 
@@ -789,9 +789,9 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
   m_omega1k = omegak;
 
   // S = exp(-0.5*B)
-  float phi = -0.5*m_alpha;
+  float phi = -0.5f*m_alpha;
   c = cosf(phi);
-  float sc = -0.5*Sincf(phi);
+  float sc = -0.5f*Sincf(phi);
   si = sc*m_Bi;
   sj = sc*m_Bj;
   sk = sc*m_Bk;
@@ -805,7 +805,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
 void
 RotorIyBV::SetGain (float gain)
 {
-  if (gain >= 0)
+  if (gain >= 0.0f)
     m_gain = gain;
 }
 
