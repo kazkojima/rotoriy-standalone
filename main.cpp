@@ -100,7 +100,7 @@ rotor_identify (int sockfd)
 	  // based on the NED orientaion. Convert it for the normal frame.
 	  // Since gz will be used as the coefficient of bivector e1^e2,
 	  // e1 <-> e2 makes the sign of gz minus.
-	  ay = uax.f; ax = uay.f; az = uaz.f;
+	  ay = -uax.f; ax = -uay.f; az = uaz.f;
 	  gy = ugx.f; gx = ugy.f; gz = -ugz.f;
 #else
 	  ax = uax.f; ay = uay.f; az = uaz.f;
@@ -163,7 +163,7 @@ main (int argc, char *argv[])
 	{
 	case 'h':
 	  printf ("Usage:\n"
-		  "   b3test [OPTION...]\n"
+		  "   rotoriy [OPTION...]\n"
 		  "\nHelp Options:\n"
 		  "  -h	Show help options\n"
 		  "\nReport options:\n"

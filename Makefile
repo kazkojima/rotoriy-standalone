@@ -6,6 +6,7 @@ ifeq "$(CPU)" "i686"
 ARCH_CPPFLAGS= -msse3 -mfpmath=sse
 endif
 
+#CPFLAGS= -g -O3 -Wall -Wdouble-promotion -ffast-math $(ARCH_CPPFLAGS)
 CPFLAGS= -g -O3 -Wall -ffast-math $(ARCH_CPPFLAGS)
 CP= g++
 

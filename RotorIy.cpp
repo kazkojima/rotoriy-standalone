@@ -242,8 +242,8 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
   if (m_gain > 0)
     {
       // v = applyVersor (S, -e3);
-      float vx = 2*m_S0*m_Sj - 2*m_Si*m_Sk;
-      float vy = -2*m_S0*m_Si - 2*m_Sj*m_Sk;
+      float vx = -2*m_S0*m_Sj - 2*m_Si*m_Sk;
+      float vy =  2*m_S0*m_Si - 2*m_Sj*m_Sk;
       float vz = -m_S0*m_S0 + m_Si*m_Si + m_Sj*m_Sj - m_Sk*m_Sk;
       float nm2 = (ax+vx)*(ax+vx)+(ay+vy)*(ay+vy)+(az+vz)*(az+vz);
       float nm3 = ax*ax + ay*ay + az*az;
@@ -269,7 +269,7 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
 	  // Skip if nm is too small
 	  if (nm > float_ep)
 	    {
-	      float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
+	      float ac = m_gain*(2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	      omegai += ac*pi;
 	      omegaj += ac*pj;
 	      omegak += ac*pk;
@@ -344,8 +344,8 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
   if (fuse_type == FUSE_ACC)
     {
       // v = applyVersor (S, -e3);
-      float vx = 2*m_S0*m_Sj - 2*m_Si*m_Sk;
-      float vy = -2*m_S0*m_Si - 2*m_Sj*m_Sk;
+      float vx = -2*m_S0*m_Sj - 2*m_Si*m_Sk;
+      float vy =  2*m_S0*m_Si - 2*m_Sj*m_Sk;
       float vz = -m_S0*m_S0 + m_Si*m_Si + m_Sj*m_Sj - m_Sk*m_Sk;
       float nma = ax*ax + ay*ay + az*az;
       float nm2 = (ax+vx)*(ax+vx) + (ay+vy)*(ay+vy) + (az+vz)*(az+vz);
@@ -372,7 +372,7 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
 	  float nm = Sqrt (nm2);
 	  if (nm > float_ep)
 	    {
-	      float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
+	      float ac = m_gain*(2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	      omegai += ac*pi;
 	      omegaj += ac*pj;
 	      omegak += ac*pk;
@@ -382,13 +382,13 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
   else if (fuse_type == FUSE_ACC_MAG)
     {
       // v = applyVersor (S, -e3);
-      float vx = 2*m_S0*m_Sj - 2*m_Si*m_Sk;
-      float vy = -2*m_S0*m_Si - 2*m_Sj*m_Sk;
+      float vx = -2*m_S0*m_Sj - 2*m_Si*m_Sk;
+      float vy =  2*m_S0*m_Si - 2*m_Sj*m_Sk;
       float vz = -m_S0*m_S0 + m_Si*m_Si + m_Sj*m_Sj - m_Sk*m_Sk;
       // u = applyVersor (S, e1);
       float ux = m_S0*m_S0 + m_Si*m_Si - m_Sj*m_Sj - m_Sk*m_Sk;
-      float uy = 2*m_Si*m_Sj - 2*m_S0*m_Sk;
-      float uz = 2*m_S0*m_Sj + 2*m_Si*m_Sk;
+      float uy =  2*m_Si*m_Sj + 2*m_S0*m_Sk;
+      float uz = -2*m_S0*m_Sj + 2*m_Si*m_Sk;
       // Notice that y(ACC) and m(MAG) are normalized already.
       // Compute a rotor P which satisfies Pv = y and Pu = m
       float p0, pi, pj, pk;
@@ -402,7 +402,7 @@ RotorIyVS::UpdateIMU (float gi, float gj, float gk,
       float nm = Sqrt (nm2);
       if (nm > float_ep)
 	{
-	  float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
+	  float ac = m_gain*(2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	  omegai += ac*pi;
 	  omegaj += ac*pj;
 	  omegak += ac*pk;
@@ -529,8 +529,8 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
   if (m_gain > 0)
     {
       // v = applyVersor (S, -e3);
-      float vx = 2*m_S0*m_Sj - 2*m_Si*m_Sk;
-      float vy = -2*m_S0*m_Si - 2*m_Sj*m_Sk;
+      float vx = -2*m_S0*m_Sj - 2*m_Si*m_Sk;
+      float vy =  2*m_S0*m_Si - 2*m_Sj*m_Sk;
       float vz = -m_S0*m_S0 + m_Si*m_Si + m_Sj*m_Sj - m_Sk*m_Sk;
       float nm2 = (ax+vx)*(ax+vx) + (ay+vy)*(ay+vy) + (az+vz)*(az+vz);
       float nm3 = ax*ax + ay*ay + az*az;
@@ -556,7 +556,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
 	  float nm = Sqrt (nm2);
 	  if (nm > float_ep)
 	    {
-	      float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
+	      float ac = m_gain*(2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	      omegai += ac*pi;
 	      omegaj += ac*pj;
 	      omegak += ac*pk;
@@ -675,8 +675,8 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
   if (fuse_type == FUSE_ACC)
     {
       // v = applyVersor (S, -e3);
-      float vx = 2*m_S0*m_Sj - 2*m_Si*m_Sk;
-      float vy = -2*m_S0*m_Si - 2*m_Sj*m_Sk;
+      float vx = -2*m_S0*m_Sj - 2*m_Si*m_Sk;
+      float vy =  2*m_S0*m_Si - 2*m_Sj*m_Sk;
       float vz = -m_S0*m_S0 + m_Si*m_Si + m_Sj*m_Sj - m_Sk*m_Sk;
       float nma = ax*ax + ay*ay + az*az;
       float nm2 = (ax+vx)*(ax+vx) + (ay+vy)*(ay+vy) + (az+vz)*(az+vz);
@@ -703,7 +703,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
 	  float nm = Sqrt (nm2);
 	  if (nm > float_ep)
 	    {
-	      float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
+	      float ac = m_gain*(2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	      omegai += ac*pi;
 	      omegaj += ac*pj;
 	      omegak += ac*pk;
@@ -713,13 +713,13 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
   else if (fuse_type == FUSE_ACC_MAG)
     {
       // v = applyVersor (S, -e3);
-      float vx = 2*m_S0*m_Sj - 2*m_Si*m_Sk;
-      float vy = -2*m_S0*m_Si - 2*m_Sj*m_Sk;
+      float vx = -2*m_S0*m_Sj - 2*m_Si*m_Sk;
+      float vy =  2*m_S0*m_Si - 2*m_Sj*m_Sk;
       float vz = -m_S0*m_S0 + m_Si*m_Si + m_Sj*m_Sj - m_Sk*m_Sk;
       // u = applyVersor (S, e1);
       float ux = m_S0*m_S0 + m_Si*m_Si - m_Sj*m_Sj - m_Sk*m_Sk;
-      float uy = 2*m_Si*m_Sj - 2*m_S0*m_Sk;
-      float uz = 2*m_S0*m_Sj + 2*m_Si*m_Sk;
+      float uy =  2*m_Si*m_Sj + 2*m_S0*m_Sk;
+      float uz = -2*m_S0*m_Sj + 2*m_Si*m_Sk;
       // Notice that y(ACC) and m(MAG) are normalized already.
       // Compute a rotor P which satisfies Pv = y and Pu = m
       float p0, pi, pj, pk;
@@ -733,7 +733,7 @@ RotorIyBV::UpdateIMU (float gi, float gj, float gk,
       float nm = Sqrt (nm2);
       if (nm > float_ep)
 	{
-	  float ac = m_gain*(-2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
+	  float ac = m_gain*(2.0f)*invSqrt (nm2)*Atan2 (p0, nm);
 	  omegai += ac*pi;
 	  omegaj += ac*pj;
 	  omegak += ac*pk;
